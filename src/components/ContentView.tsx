@@ -4,6 +4,7 @@ import { SearchBar } from './SearchBar';
 import { Results } from './Results';
 import { LoadIcon } from './LoadIcon';
 import { ErrorView } from './ErrorView';
+import { AuthView } from './AuthView';
 
 import { getResults } from '../api/api';
 
@@ -20,6 +21,7 @@ enum AppStateEnum {
   Loading = 'Loading',
   Error = 'Error',
   Render = 'Render',
+  Auth = 'Auth',
 }
 
 export const ContentView: React.FC<IContentViewProps> = (props: IContentViewProps): JSX.Element => {
@@ -76,6 +78,8 @@ export const ContentView: React.FC<IContentViewProps> = (props: IContentViewProp
     view = <LoadIcon isLoading={true} />;
   } else if (AppState === AppStateEnum.Error) {
     view = <ErrorView message={ErrorMessage} />;
+  } else if (AppState === AppStateEnum.Auth) {
+    view = <AuthView title="temp" url="www.microsoft.com" />;
   }
   return (
     <>
