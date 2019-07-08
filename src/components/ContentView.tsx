@@ -44,8 +44,7 @@ export const ContentView: React.FC<IContentViewProps> = (props: IContentViewProp
       setAuthUrl(response.data.url);
       setAuthTitle(response.data.title);
       setAppState(AppStateEnum.Auth);
-    }
-    else {
+    } else {
       setResult(parseQueryResponse(response.data));
       setAppState(AppStateEnum.Render);
       microsoftTeams.appInitialization.notifySuccess();
@@ -84,12 +83,16 @@ export const ContentView: React.FC<IContentViewProps> = (props: IContentViewProp
   }, [props.onThemeChange]);
 
   let view = <Results results={Result} viewOption={ViewOption} />;
-  if (AppState === AppStateEnum.Loading) {
-    view = <LoadIcon isLoading={true} />;
-  } else if (AppState === AppStateEnum.Error) {
-    view = <ErrorView message={ErrorMessage} />;
-  } else if (AppState === AppStateEnum.Auth) {
-    view = <AuthView title={AuthTitle} url={AuthUrl} />;
+  switch (AppState) {
+    case 'Loading':
+      view = <LoadIcon isLoading={true} />;
+      break;
+    case 'Error':
+      view = <ErrorView message={ErrorMessage} />;
+      break;
+    case 'Auth':
+      view = <AuthView title={AuthTitle} url={AuthUrl} />;
+      break;
   }
   return (
     <>
