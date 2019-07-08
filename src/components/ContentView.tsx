@@ -40,7 +40,7 @@ export const ContentView: React.FC<IContentViewProps> = (props: IContentViewProp
 
   const onResults = (response: microsoftTeams.bot.QueryResponse): void => {
     //WHEN SDK FIX
-    if (response.type === 'auth') {
+    if (response.type === 'Auth') {
       setAuthUrl(response.data.url);
       setAuthTitle(response.data.title);
       setAppState(AppStateEnum.Auth);
