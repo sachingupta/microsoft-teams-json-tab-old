@@ -11,10 +11,12 @@ import { getResults } from '../api/api';
 import * as microsoftTeams from '@microsoft/teams-js';
 import { ICard } from '../api/api.interface';
 import { isInitialRun, parseQueryResponse, getCommandId } from '../utils/utils';
+import { createComponent } from '@stardust-ui/react';
 
 // handlers
-interface IContentViewProps {
+export interface IContentViewProps {
   onThemeChange: (theme: string) => void;
+  customClass: string;
 }
 
 enum AppStateEnum {
@@ -39,11 +41,11 @@ export const ContentView: React.FC<IContentViewProps> = (props: IContentViewProp
 
   const onResults = (response: microsoftTeams.bot.QueryResponse): void => {
     if (response.type === microsoftTeams.bot.ResponseType.Auth) {
-      const authResponse: microsoftTeams.bot.Auth = (response.data as microsoftTeams.bot.Auth);
+      const authResponse: microsoftTeams.bot.Auth = response.data as microsoftTeams.bot.Auth;
       setAuthData({ url: authResponse.url, title: authResponse.title });
       setAppState(AppStateEnum.Auth);
     } else {
-      const resultsResponse: microsoftTeams.bot.Results = (response.data as microsoftTeams.bot.Results);
+      const resultsResponse: microsoftTeams.bot.Results = response.data as microsoftTeams.bot.Results;
       setResult(parseQueryResponse(resultsResponse));
       setAppState(AppStateEnum.Render);
       microsoftTeams.appInitialization.notifySuccess();
@@ -94,9 +96,17 @@ export const ContentView: React.FC<IContentViewProps> = (props: IContentViewProp
       break;
   }
   return (
-    <>
+    <div className={props.customClass}>
       <SearchBar onSearch={handleSearch} onViewChange={handleViewChange} />
       {view}
-    </>
+    </div>
   );
 };
+
+export const ContentViewWrapper = createComponent({
+  displayName: 'ContentViewWrapper',
+  render: ({ stardust, onThemeChange }) => {
+    const { classes } = stardust;
+    return <ContentView customClass={classes.root} onThemeChange={onThemeChange} />;
+  },
+});
