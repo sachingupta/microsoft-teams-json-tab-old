@@ -9,7 +9,7 @@ interface IAuthViewProps {
 export const AuthView: React.FC<IAuthViewProps> = (props: IAuthViewProps): JSX.Element => {
   return (
     <>
-      <Text size={'large'} content={'Sign in'} />
+      <Text size={'large'} content={props.title} />
       <Text
         size={'medium'}
         content={
