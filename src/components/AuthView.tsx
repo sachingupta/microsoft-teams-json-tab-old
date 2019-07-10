@@ -5,6 +5,7 @@ import * as microsoftTeams from '@microsoft/teams-js';
 interface IAuthViewProps {
   title: string;
   url: string;
+  currentQuery: microsoftTeams.bot.QueryRequest;
   onAuthenticated: (results: microsoftTeams.bot.Results) => void;
 }
 
@@ -25,6 +26,8 @@ export const AuthView: React.FC<IAuthViewProps> = (props: IAuthViewProps): JSX.E
 
   const handleAuthentication = () => {
     const authParams: microsoftTeams.bot.AuthRequest = {
+      query: props.currentQuery.query,
+      commandId: props.currentQuery.commandId,
       url: props.url,
     };
 

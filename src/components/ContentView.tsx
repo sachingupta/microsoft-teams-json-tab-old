@@ -33,6 +33,7 @@ export const ContentView: React.FC<IContentViewProps> = (props: IContentViewProp
   const [AppState, setAppState] = React.useState(AppStateEnum.Render);
   const [ErrorMessage, setErrorMessage] = React.useState('Hmm... Something went wrong...');
   const [AuthData, setAuthData] = React.useState({ url: '', title: 'Sign in' });
+  const [Query, setQuery] = React.useState({ query: '', commandId: getCommandId(window.location.href)});
 
   const onError = (error: string): void => {
     setAppState(AppStateEnum.Error);
@@ -58,6 +59,7 @@ export const ContentView: React.FC<IContentViewProps> = (props: IContentViewProp
         query: query,
         commandId: getCommandId(window.location.href),
       };
+      setQuery(request); // keep query in state for auth
       getResults(request, onResults, onError);
       setAppState(AppStateEnum.Loading);
     }
@@ -97,7 +99,7 @@ export const ContentView: React.FC<IContentViewProps> = (props: IContentViewProp
       view = <ErrorView message={ErrorMessage} />;
       break;
     case 'Auth':
-      view = <AuthView title={AuthData.title} url={AuthData.url} onAuthenticated={handleAuthenticated} />;
+      view = <AuthView title={AuthData.title} url={AuthData.url} currentQuery={Query} onAuthenticated={handleAuthenticated} />;
       break;
   }
   return (
