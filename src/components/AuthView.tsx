@@ -5,29 +5,31 @@ import * as microsoftTeams from '@microsoft/teams-js';
 interface IAuthViewProps {
   title: string;
   url: string;
-  //handleAuthenticated: () => void;
+  onAuthenticated: (results: microsoftTeams.bot.Results) => void;
 }
 
 export const AuthView: React.FC<IAuthViewProps> = (props: IAuthViewProps): JSX.Element => {
-  const onAuthSuccess = (result?: string | undefined): void => {
-    alert(`Successfully authenticated.\n${result}`);
-    //props.handleAuthenticated();
+  const onAuth = (results: microsoftTeams.bot.Results): void => {
+    alert('Successfully authenticated.');
+    props.onAuthenticated(results);
   };
 
-  const onAuthFailure = (result?: string | undefined): void => {
-    alert(`Failed to authenticate.\n${result}`);
+  const onError = (error: string): void => {
+    alert(`Failed to authenticate.\n${error}`);
   };
 
   React.useEffect((): void => {
     microsoftTeams.initialize();
     microsoftTeams.appInitialization.notifyAppLoaded();
-    const authenticationParams: microsoftTeams.authentication.AuthenticateParameters = {
-      url: props.url,
-      successCallback: onAuthSuccess,
-      failureCallback: onAuthFailure,
-    }
-    microsoftTeams.authentication.registerAuthenticationHandlers(authenticationParams);
   });
+
+  const handleAuthentication = () => {
+    const authParams: microsoftTeams.bot.AuthRequest = {
+      url: props.url,
+    }
+
+    microsoftTeams.bot.authenticate(authParams, onAuth, onError);
+  }
 
   return (
     <>
@@ -36,7 +38,7 @@ export const AuthView: React.FC<IAuthViewProps> = (props: IAuthViewProps): JSX.E
         size={'medium'}
         content={
           <p>
-            You&apos;ll need to <a href={props.url}>sign in</a> to use this app.
+            You&apos;ll need to <a onClick={handleAuthentication}>sign in</a> to use this app.
           </p>
         }
       />

@@ -69,6 +69,11 @@ export const ContentView: React.FC<IContentViewProps> = (props: IContentViewProp
     }
   };
 
+  const handleAuthenticated = (results: microsoftTeams.bot.Results) => {
+    setResult(parseQueryResponse(results));
+    setAppState(AppStateEnum.Render);
+  }
+
   // EFFECT HOOKS
   React.useEffect((): void => {
     microsoftTeams.initialize();
@@ -92,7 +97,7 @@ export const ContentView: React.FC<IContentViewProps> = (props: IContentViewProp
       view = <ErrorView message={ErrorMessage} />;
       break;
     case 'Auth':
-      view = <AuthView title={AuthData.title} url={AuthData.url} />;
+      view = <AuthView title={AuthData.title} url={AuthData.url} onAuthenticated={handleAuthenticated} />;
       break;
   }
   return (
