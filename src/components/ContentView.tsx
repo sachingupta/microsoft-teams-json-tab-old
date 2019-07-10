@@ -72,7 +72,7 @@ export const ContentView: React.FC<IContentViewProps> = (props: IContentViewProp
   const handleAuthenticated = (results: microsoftTeams.bot.Results) => {
     setResult(parseQueryResponse(results));
     setAppState(AppStateEnum.Render);
-  }
+  };
 
   // EFFECT HOOKS
   React.useEffect((): void => {

@@ -26,10 +26,10 @@ export const AuthView: React.FC<IAuthViewProps> = (props: IAuthViewProps): JSX.E
   const handleAuthentication = () => {
     const authParams: microsoftTeams.bot.AuthRequest = {
       url: props.url,
-    }
+    };
 
     microsoftTeams.bot.authenticate(authParams, onAuth, onError);
-  }
+  };
 
   return (
     <>
