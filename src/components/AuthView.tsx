@@ -9,7 +9,6 @@ interface IAuthViewProps {
 }
 
 export const AuthView: React.FC<IAuthViewProps> = (props: IAuthViewProps): JSX.Element => {
-
   const onAuthSuccess = (result?: string | undefined): void => {
     alert(`Successfully authenticated.\n${result}`);
     //props.handleAuthenticated();

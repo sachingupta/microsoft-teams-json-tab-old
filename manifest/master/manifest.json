@@ -20,7 +20,7 @@
   },
   "icons": {
     "outline": "icon-outline.png",
-    "color": "icon-color.PNG"
+    "color": "icon-color.png"
   },
   "accentColor": "#abcdef",
   "staticTabs": [
